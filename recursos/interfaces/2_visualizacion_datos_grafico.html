@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BolsaSmart - Visualización de Datos: Gráfico</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:Arial,sans-serif; background:#f5f7fa; color:#1f2937; }
+  header { background:#0f172a; color:white; padding:24px; }
+  header .contenedor, main { width:min(1100px, calc(100% - 32px)); margin:0 auto; }
+  header h1 { margin:0 0 6px; font-size:1.8rem; }
+  header p { margin:0; color:#cbd5e1; }
+  main { padding:28px 0 50px; }
+  .aviso { background:#fff8db; border:1px solid #eadb8f; border-radius:10px; padding:12px 16px; margin-bottom:22px; }
+  .panel { background:white; border:1px solid #e5e7eb; border-radius:14px; overflow:hidden; }
+  .panel-cabecera { display:flex; justify-content:space-between; align-items:end; gap:16px; flex-wrap:wrap; padding:20px; border-bottom:1px solid #e5e7eb; }
+  .panel-cabecera h2 { margin:0 0 4px; }
+  .panel-cabecera p { margin:0; color:#6b7280; }
+  .controles { display:flex; gap:12px; flex-wrap:wrap; }
+  label { display:flex; flex-direction:column; gap:6px; font-weight:bold; }
+  select { min-width:180px; padding:10px 12px; border:1px solid #cbd5e1; border-radius:8px; background:white; font:inherit; }
+  .positivo { color:#137333; font-weight:bold; }
+  .negativo { color:#b3261e; font-weight:bold; }
+  @media (max-width:600px) {
+    header { padding:20px 0; }
+    select { min-width:100%; }
+    .controles, .controles label { width:100%; }
+  }
+</style>
+
+  <style>
+    .grafico-contenedor { padding:22px; }
+    .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-bottom:22px; }
+    .kpi { background:#f8fafc; border:1px solid #e5e7eb; border-radius:10px; padding:15px; }
+    .kpi span { display:block; color:#6b7280; font-size:.88rem; margin-bottom:5px; }
+    .kpi strong { font-size:1.35rem; }
+    .canvas-box { min-height:360px; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="contenedor">
+    <h1>BolsaSmart</h1>
+    <p>Ejemplo de Interfaz de Visualización de Datos: Gráfico</p>
+  </div>
+</header>
+
+<main>
+  <div class="aviso">
+    <strong>Ejemplo didáctico:</strong> los datos son ficticios. El objetivo es mostrar una posible interacción con los datos de una empresa.
+  </div>
+
+  <section class="panel">
+    <div class="panel-cabecera">
+      <div>
+        <h2>Evolución del activo</h2>
+        <p>Cambia la empresa, el periodo o el indicador para actualizar la visualización.</p>
+      </div>
+
+      <div class="controles">
+        <label>
+          Empresa
+          <select id="empresa">
+            <option value="apple">Apple</option>
+            <option value="microsoft">Microsoft</option>
+            <option value="nvidia">NVIDIA</option>
+            <option value="amazon">Amazon</option>
+          </select>
+        </label>
+
+        <label>
+          Periodo
+          <select id="periodo">
+            <option value="6">6 meses</option>
+            <option value="12" selected>12 meses</option>
+          </select>
+        </label>
+
+        <label>
+          Indicador
+          <select id="indicador">
+            <option value="precio">Precio</option>
+            <option value="volumen">Volumen</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="grafico-contenedor">
+      <div class="kpis">
+        <div class="kpi"><span>Último valor</span><strong id="ultimo">-</strong></div>
+        <div class="kpi"><span>Máximo del periodo</span><strong id="maximo">-</strong></div>
+        <div class="kpi"><span>Mínimo del periodo</span><strong id="minimo">-</strong></div>
+        <div class="kpi"><span>Variación del periodo</span><strong id="variacion">-</strong></div>
+      </div>
+
+      <div class="canvas-box">
+        <canvas id="grafico"></canvas>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const empresas = {
+  apple: {
+    nombre:"Apple",
+    precio:[172,176,181,179,184,189,193,197,195,201,205,210],
+    volumen:[52,48,55,51,60,58,63,67,61,70,72,75]
+  },
+  microsoft: {
+    nombre:"Microsoft",
+    precio:[402,408,411,417,423,421,430,437,442,439,448,455],
+    volumen:[21,23,20,25,24,27,26,29,31,28,30,33]
+  },
+  nvidia: {
+    nombre:"NVIDIA",
+    precio:[118,124,129,127,136,142,149,153,158,162,169,175],
+    volumen:[85,92,88,97,103,110,108,116,121,118,126,132]
+  },
+  amazon: {
+    nombre:"Amazon",
+    precio:[184,187,190,188,194,199,202,207,204,212,219,226],
+    volumen:[44,46,43,49,51,54,53,57,59,56,60,58]
+  }
+};
+
+const meses = ["Nov","Dic","Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct"];
+
+const chart = new Chart(document.getElementById("grafico"), {
+  type:"line",
+  data:{ labels:[], datasets:[{ label:"", data:[], tension:.25, pointRadius:4 }] },
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    interaction:{ mode:"index", intersect:false },
+    plugins:{ tooltip:{ enabled:true } }
+  }
+});
+
+function actualizar() {
+  const empresa = empresas[document.getElementById("empresa").value];
+  const indicador = document.getElementById("indicador").value;
+  const periodo = Number(document.getElementById("periodo").value);
+
+  const valores = empresa[indicador].slice(-periodo);
+  const labels = meses.slice(-periodo);
+
+  const ultimo = valores[valores.length - 1];
+  const primero = valores[0];
+  const maximo = Math.max(...valores);
+  const minimo = Math.min(...valores);
+  const variacion = ((ultimo - primero) / primero) * 100;
+
+  chart.data.labels = labels;
+  chart.data.datasets[0].data = valores;
+  chart.data.datasets[0].label =
+    indicador === "precio"
+      ? empresa.nombre + " - Precio (€)"
+      : empresa.nombre + " - Volumen (M)";
+  chart.update();
+
+  const sufijo = indicador === "precio" ? " €" : " M";
+  document.getElementById("ultimo").textContent = ultimo + sufijo;
+  document.getElementById("maximo").textContent = maximo + sufijo;
+  document.getElementById("minimo").textContent = minimo + sufijo;
+
+  const variacionEl = document.getElementById("variacion");
+  variacionEl.textContent = (variacion > 0 ? "+" : "") + variacion.toFixed(1) + " %";
+  variacionEl.className = variacion >= 0 ? "positivo" : "negativo";
+}
+
+["empresa","periodo","indicador"].forEach(id =>
+  document.getElementById(id).addEventListener("change", actualizar)
+);
+
+actualizar();
+</script>
+</body>
+</html>

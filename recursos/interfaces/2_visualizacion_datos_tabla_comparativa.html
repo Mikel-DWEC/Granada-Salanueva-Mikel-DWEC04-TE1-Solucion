@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BolsaSmart - Visualización de Datos: Tabla Comparativa</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      color: #1f2937;
+    }
+
+    header {
+      background: #0f172a;
+      color: white;
+      padding: 24px;
+    }
+
+    header .contenedor,
+    main {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 1.8rem;
+    }
+
+    header p {
+      margin: 0;
+      color: #cbd5e1;
+    }
+
+    main {
+      padding: 28px 0 50px;
+    }
+
+    .aviso {
+      background: #fff8db;
+      border: 1px solid #eadb8f;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 22px;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .panel-cabecera {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .panel-cabecera h2 {
+      margin: 0 0 4px;
+    }
+
+    .panel-cabecera p {
+      margin: 0;
+      color: #6b7280;
+    }
+
+    .controles {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-weight: bold;
+    }
+
+    select {
+      min-width: 180px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: white;
+      font: inherit;
+    }
+
+    .tabla-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th,
+    td {
+      padding: 15px 16px;
+      text-align: center;
+      border-bottom: 1px solid #edf0f3;
+    }
+
+    th {
+      color: #64748b;
+      background: #fafafa;
+      font-size: .86rem;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: left;
+    }
+
+    .mejor {
+      background: #e9f6ea;
+      font-weight: bold;
+    }
+
+    .peor {
+      background: #f9ecec;
+    }
+
+    .leyenda {
+      padding: 14px 20px;
+      border-top: 1px solid #e5e7eb;
+      color: #6b7280;
+      font-size: .9rem;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 20px 0;
+      }
+
+      .controles,
+      .controles label,
+      select {
+        width: 100%;
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="contenedor">
+      <h1>BolsaSmart</h1>
+      <p>Ejemplo de Interfaz de Visualización de Datos: Tabla Comparativa</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="aviso">
+      <strong>Ejemplo didáctico:</strong>
+      los datos son ficticios. La tabla sirve para mostrar cómo el usuario puede
+      seleccionar y comparar varios elementos.
+    </div>
+
+    <section class="panel">
+      <div class="panel-cabecera">
+        <div>
+          <h2>Comparador de empresas</h2>
+          <p>Selecciona tres empresas para comparar sus principales indicadores.</p>
+        </div>
+
+        <div class="controles">
+          <label>
+            Empresa 1
+            <select id="empresa1"></select>
+          </label>
+
+          <label>
+            Empresa 2
+            <select id="empresa2"></select>
+          </label>
+
+          <label>
+            Empresa 3
+            <select id="empresa3"></select>
+          </label>
+        </div>
+      </div>
+
+      <div class="tabla-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Indicador</th>
+              <th id="cab1">-</th>
+              <th id="cab2">-</th>
+              <th id="cab3">-</th>
+            </tr>
+          </thead>
+
+          <tbody id="comparacion"></tbody>
+        </table>
+      </div>
+
+      <div class="leyenda">
+        El valor más alto de cada fila se destaca en verde y el más bajo en rojo.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const empresas = [
+      { id: "apple", nombre: "Apple", precio: 210.40, variacion: 1.8, volumen: 75, capitalizacion: 3100 },
+      { id: "microsoft", nombre: "Microsoft", precio: 455.20, variacion: 0.9, volumen: 33, capitalizacion: 3400 },
+      { id: "nvidia", nombre: "NVIDIA", precio: 175.30, variacion: 4.6, volumen: 132, capitalizacion: 4200 },
+      { id: "amazon", nombre: "Amazon", precio: 226.10, variacion: 2.1, volumen: 58, capitalizacion: 2400 },
+      { id: "tesla", nombre: "Tesla", precio: 248.70, variacion: -1.7, volumen: 98, capitalizacion: 790 },
+      { id: "meta", nombre: "Meta", precio: 565.80, variacion: 1.3, volumen: 24, capitalizacion: 1450 }
+    ];
+
+    const criterios = [
+      { campo: "precio", etiqueta: "Precio (€)" },
+      { campo: "variacion", etiqueta: "Variación diaria (%)" },
+      { campo: "volumen", etiqueta: "Volumen negociado (M)" },
+      { campo: "capitalizacion", etiqueta: "Capitalización (miles de M $)" }
+    ];
+
+    const selects = [
+      document.getElementById("empresa1"),
+      document.getElementById("empresa2"),
+      document.getElementById("empresa3")
+    ];
+
+    selects.forEach((select, indice) => {
+      empresas.forEach((empresa, i) => {
+        const option = document.createElement("option");
+        option.value = empresa.id;
+        option.textContent = empresa.nombre;
+
+        if (i === indice) {
+          option.selected = true;
+        }
+
+        select.appendChild(option);
+      });
+
+      select.addEventListener("change", pintarComparacion);
+    });
+
+    function obtenerEmpresa(id) {
+      return empresas.find(empresa => empresa.id === id);
+    }
+
+    function pintarComparacion() {
+      const elegidas = selects.map(select => obtenerEmpresa(select.value));
+
+      document.getElementById("cab1").textContent = elegidas[0].nombre;
+      document.getElementById("cab2").textContent = elegidas[1].nombre;
+      document.getElementById("cab3").textContent = elegidas[2].nombre;
+
+      const tbody = document.getElementById("comparacion");
+      tbody.innerHTML = "";
+
+      criterios.forEach(criterio => {
+        const valores = elegidas.map(empresa => empresa[criterio.campo]);
+        const maximo = Math.max(...valores);
+        const minimo = Math.min(...valores);
+
+        const fila = document.createElement("tr");
+
+        const etiqueta = document.createElement("th");
+        etiqueta.textContent = criterio.etiqueta;
+        fila.appendChild(etiqueta);
+
+        valores.forEach(valor => {
+          const celda = document.createElement("td");
+
+          if (criterio.campo === "precio") {
+            celda.textContent = valor.toFixed(2) + " €";
+          } else if (criterio.campo === "variacion") {
+            celda.textContent = (valor > 0 ? "+" : "") + valor.toFixed(1) + " %";
+          } else if (criterio.campo === "volumen") {
+            celda.textContent = valor + " M";
+          } else {
+            celda.textContent = valor.toLocaleString("es-ES") + " mil M $";
+          }
+
+          if (valor === maximo) {
+            celda.classList.add("mejor");
+          }
+
+          if (valor === minimo && minimo !== maximo) {
+            celda.classList.add("peor");
+          }
+
+          fila.appendChild(celda);
+        });
+
+        tbody.appendChild(fila);
+      });
+    }
+
+    pintarComparacion();
+  </script>
+</body>
+</html>
