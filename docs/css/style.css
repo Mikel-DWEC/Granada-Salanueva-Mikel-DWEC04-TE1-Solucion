@@ -1,3 +1,176 @@
-#idTituloInicial {
-    color: red;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+body {
+    background-color: rgb(129, 195, 243);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Fuerza al body a medir toda la altura de la pantalla */
+}
+
+/* --- ESTILOS PARA LA CABECERA (HEADER) --- */
+header {
+    text-align: center;
+}
+
+/* Esta es la caja contenedora principal (El Box) */
+header div {
+    background-color: #2c3e50;  /* Fondo oscuro */
+    color: #ffffff;              /* Letras claras para todo el bloque */
+    border-radius: 12px;         /* Esquinas redondeadas */
+    padding: 20px;               /* Aumentamos un poco para que el h1 respire mejor */
+    max-width: 550px;            /* Ancho máximo de la caja */
+    margin: 40px auto 40px auto;    /* Margen superior de 50px y centrado horizontal */
+}
+
+header div h1 {
+    font-size: 36px;
+    text-transform: uppercase;
+    color: goldenrod;
+    letter-spacing: 3px; 
+    margin-bottom: 15px;         /* Espacio inferior para separarlo del h2 */
+}
+
+header div h2 {
+    font-size: 18px;
+    font-weight: 300; 
+    margin-top: 5px;
+    color: #ffd700;              /* Un tono dorado suave para resaltar el subtítulo */
+}
+
+header div p {
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+/* --- CENTRADO DEL CONTENEDOR PRINCIPAL --- */
+.contenedor {
+    max-width: 960px;         
+    margin: 0 auto 50px auto;  
+    padding: 0 20px;           
+    flex: 1;                  /*  Hace que crezca y empuje al footer hacia abajo */
+}
+
+
+/* --- REJILLA (GRID) --- */
+#spots-grid {
+    display: grid;
+    /* Cambia la línea de grid-template-columns por esta: */
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    max-width: 960px; /* Asegura un ancho controlado para las 3 columnas */
+    margin: 0 auto;   /* Centra el bloque del grid */
+    gap: 25px;        /* Mantiene tu separación actual */
+    justify-content: center;
+}
+
+
+/* --- ESTILO BOX PARA CADA TARJETA --- */
+.spot-card {
+    background-color: white;   /* Fondo blanco limpio para contrastar con el fondo azul */
+    border: 2px solid #2c3e50; /* Borde oscuro a juego con tu cuadro de cabecera */
+    border-radius: 12px;       /* Esquinas redondeadas idénticas a tu cabecera */
+    padding: 15px;             /* Espacio interno para que todo el contenido "respire" */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Sombra suave para dar volumen de "caja" */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empuja el botón al fondo de la tarjeta automáticamente */
+    transition: transform 0.2s ease; /* Efecto suave para cuando pasemos el ratón */
+}
+
+/* Pequeño efecto visual interactivo muy chulo cuando pasas el ratón por encima */
+.spot-card:hover {
+    transform: translateY(-5px); /* La caja se eleva sutilmente */
+}
+
+/* --- DETALLES DE LOS TEXTOS DENTRO DEL BOX --- */
+.spot-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.spot-card-header h2 {
+    font-size: 18px;
+    color: #2c3e50;            /* Mismo tono oscuro del header */
+}
+
+.spot-province {
+    font-size: 12px;
+    color: #7f8c8d;            /* Gris suave para la provincia */
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+/* --- DISEÑO DE LOS DOS KPIS REQUERIDOS --- */
+.spot-kpis {
+    display: flex;
+    background-color: #f4f7f6; /* Fondo grisáceo claro para enmarcar los indicadores */
+    padding: 8px;
+    border-radius: 8px;        /* Bordes redondeados también dentro del KPI */
+    margin-bottom: 15px;
+    border: 1px solid #e2e8f0;
+}
+
+.kpi {
+    flex: 1;
+    text-align: center;
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: #555;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.kpi-value {
+    font-size: 13px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* --- BOTÓN DE DETALLE --- */
+.btn-detail {
+    background-color: goldenrod;
+    color: #2c3e50;            /* Texto oscuro para que contraste genial con el dorado */
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;  /* Letras mayúsculas para el botón */
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-detail:hover {
+    background-color: #daa520; /* Oscurece un poco el dorado al pasar el cursor */
+}
+
+/* --- ETIQUETAS DE NIVEL --- */
+.badge {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+}
+.badge-all { background-color: #2ecc71; }
+.badge-inter { background-color: #3498db; }
+.badge-advanced { background-color: #e67e22; }
+.badge-expert { background-color: #e74c3c; }
+
+
+footer {
+    padding-bottom: 15px;     /* Espacio limpio respecto al borde inferior */
+    margin-top: 10px;         /* Separación por si el contenido llega a tocarlo */
+    color: black;              
+    font-size: 10px;
+    text-align: center;
 }

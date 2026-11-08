@@ -5,11 +5,157 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" href="css/style.css" />
-        <title>DWEC04 - Nombre Proyecto</title>
+        <title>DWEC04 - WaveWatch</title>
     </head>
     <body>
-        <h1 id="idTituloInicial">API Rest</h1>
+        <header>
+            <div id="idPresentacion">
+                <h1>🏄‍♀️ WaveWatch 🏄‍♀️</h1>
+                <h2>El estado del mar en tiempo real</h2>
+                <p>Encuentra las mejores condiciones y la ola perfecta en tus spots favoritos.</p>
+            </div>
+        </header>
+        <main class="contenedor">
+            <section id="spots-grid">
+                <!-- Tarjeta 1: Mundaka -->
+                <article class="spot-card">
+                    <div class="spot-card-header">
+                        <h2>Mundaka</h2>
+                        <span class="badge badge-advanced">Avanzado</span>
+                    </div>
+                    <p class="spot-province">Vizcaya</p>
+                    <div class="spot-kpis">
+                        <div class="kpi">
+                            <span class="kpi-label">🌊 Ola</span>
+                            <span class="kpi-value">--m</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-label">⏱️ Período</span>
+                            <span class="kpi-value">--s</span>
+                        </div>
 
+
+                        <div class="kpi">
+                            <span class="kpi-label">🍃 Viento</span>
+                            <span class="kpi-value">Offshore</span>
+                        </div>
+
+
+
+                        </div>
+                    </div>
+                    <button class="btn-detail">Ver detalles</button>
+                </article>
+
+                <!-- Tarjeta 2: Zarautz -->
+                <article class="spot-card">
+                    <div class="spot-card-header">
+                        <h2>Zarautz</h2>
+                        <span class="badge badge-all">Todos</span>
+                    </div>
+                    <p class="spot-province">Guipúzcoa</p>
+                    <div class="spot-kpis">
+                        <div class="kpi">
+                            <span class="kpi-label">🌊 Ola</span>
+                            <span class="kpi-value">--m</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-label">⏱️ Período</span>
+                            <span class="kpi-value">--s</span>
+                        </div>
+                    </div>
+                    <button class="btn-detail">Ver detalles</button>
+                </article>
+
+                <!-- Tarjeta 3: La Zurriola -->
+                <article class="spot-card">
+                    <div class="spot-card-header">
+                        <h2>La Zurriola</h2>
+                        <span class="badge badge-inter">Intermedio</span>
+                    </div>
+                    <p class="spot-province">Guipúzcoa</p>
+                    <div class="spot-kpis">
+                        <div class="kpi">
+                            <span class="kpi-label">🌊 Ola</span>
+                            <span class="kpi-value">--m</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-label">⏱️ Período</span>
+                            <span class="kpi-value">--s</span>
+                        </div>
+                    </div>
+                    <button class="btn-detail">Ver detalles</button>
+                </article>
+
+                <!-- Tarjeta 4: Bakio -->
+                <article class="spot-card">
+                    <div class="spot-card-header">
+                        <h2>Bakio</h2>
+                        <span class="badge badge-all">Todos</span>
+                    </div>
+                    <p class="spot-province">Vizcaya</p>
+                    <div class="spot-kpis">
+                        <div class="kpi">
+                            <span class="kpi-label">🌊 Ola</span>
+                            <span class="kpi-value">--m</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-label">⏱️ Período</span>
+                            <span class="kpi-value">--s</span>
+                        </div>
+                    </div>
+                    <button class="btn-detail">Ver detalles</button>
+                </article>
+
+                <!-- Tarjeta 5: Sopela -->
+                <article class="spot-card">
+                    <div class="spot-card-header">
+                        <h2>Sopela</h2>
+                        <span class="badge badge-inter">Intermedio</span>
+                    </div>
+                    <p class="spot-province">Vizcaya</p>
+                    <div class="spot-kpis">
+                        <div class="kpi">
+                            <span class="kpi-label">🌊 Ola</span>
+                            <span class="kpi-value">--m</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-label">⏱️ Período</span>
+                            <span class="kpi-value">--s</span>
+                        </div>
+                    </div>
+                    <button class="btn-detail">Ver detalles</button>
+                </article>
+
+                <!-- Tarjeta 6: Meñakoz -->
+                <article class="spot-card">
+                    <div class="spot-card-header">
+                        <h2>Meñakoz</h2>
+                        <span class="badge badge-expert">Experto</span>
+                    </div>
+                    <p class="spot-province">Vizcaya</p>
+                    <div class="spot-kpis">
+                        <div class="kpi">
+                            <span class="kpi-label">🌊 Ola</span>
+                            <span class="kpi-value">--m</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-label">⏱️ Período</span>
+                            <span class="kpi-value">--s</span>
+                        </div>
+                    </div>
+                    <button class="btn-detail">Ver detalles</button>
+                </article>
+
+            </section>
+
+            <nav>
+
+            </nav>
+        </main>
+        <footer>
+            <p>&copy; 2026 WaveWatch - DWEC04 TE1 - Mikel Granada</p>
+        </footer>
         <script type="module" src="js/main.js"></script>
     </body>
 </html>
