@@ -1,5 +1,14 @@
-'use-strict'
+'use strict'
 
-console.log("Documento cargado correctamente");
+import { consultarAPI } from "../js/service/wavewatch.service.js";
+import { crearSpots } from "./ui/spots.ui.js";
 
-// Usaremos la API open-meteo.com
+$(document).ready(function(){
+    consultarAPI()
+        .then(partesMarinos => {
+            if(partesMarinos) {
+                crearSpots(partesMarinos);
+            }
+        });
+});
+
