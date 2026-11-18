@@ -80,17 +80,3 @@ const spots = JSON.parse(spotsJson);
 export const SPOTS_BD = spots.map(elemento => {
     return new Spot(elemento);
 });
-
-export const KPIS = [
-    {
-        etiqueta:"🌊 Ola", 
-        parametro:"wave_height"
-    },
-    {
-        etiqueta:"⏱️ Período", 
-        parametro:"wave_period"
-    },
-    {
-        etiqueta:"🍃 Viento",
-        parametro:"wind_wave_direction"
-    }];

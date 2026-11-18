@@ -1,12 +1,14 @@
 'use strict'
 
-import { KPIS } from "../data/spots.data.js";
+import { CONFIG_KPIS } from "../data/kpis.data.js";
+import { crearElemento } from "../utils/dom.util.js";
 
-export function crearSpots(playas) {
+export function mostrarSpots(partesMarinos) {
 
     let seccionSpot = document.querySelector("#spots-grid");
+    seccionSpot.innerHTML = "";
 
-    for(let i = 0; i < playas.length; i++) {
+    for(let i = 0; i < partesMarinos.length; i++) {
         //========================
         // --- TARJETA SPOT ---
         //========================
@@ -16,26 +18,26 @@ export function crearSpots(playas) {
             let cabeceraSpot = crearElemento("div", "spot-card-header");
 
                 // 1. Nombre de la playa
-                let nombrePlaya = crearElemento("h2", "", playas[i].spot.nombre);
+                let nombreSpot = crearElemento("h2", "", partesMarinos[i].spot.nombre);
 
                 // 2. Nivel de la playa
                 let claseNivel = "badge ";
-                switch(playas[i].spot.nivel) {
+                switch(partesMarinos[i].spot.nivel) {
                     case "Todos los niveles":   claseNivel += "badge-all";      break;
                     case "Intermedio":          claseNivel += "badge-inter";    break;
                     case "Avanzado":            claseNivel += "badge-advanced"; break;
                     case "Experto":             claseNivel += "badge-expert";   break;
                 }
-                let nivelPlaya = crearElemento("span", claseNivel, playas[i].spot.nivel);
+                let nivelSpot = crearElemento("span", claseNivel, partesMarinos[i].spot.nivel);
 
             // 3. Añadir la playa y el nivel a la cabecera del spot
-            cabeceraSpot.append(nombrePlaya, nivelPlaya);
+            cabeceraSpot.append(nombreSpot, nivelSpot);
 
             //========================
             // --- PROVINCIA SPOT ---
             //========================
 
-            let provincia = crearElemento("p", "spot-province", playas[i].spot.provincia);
+            let provincia = crearElemento("p", "spot-province", partesMarinos[i].spot.provincia);
 
             //=========================
             // --- CONTENEDOR KPIs ---
@@ -47,13 +49,13 @@ export function crearSpots(playas) {
             // --- ELEMENTOS KPIs ---
             //========================
 
-            const valoresKpis = [playas[i].ola, playas[i].periodo, playas[i].viento];
-            for(let iKpi = 0; iKpi < KPIS.length; iKpi++) {
+            const valoresKpis = [partesMarinos[i].ola, partesMarinos[i].periodo, partesMarinos[i].viento];
+            for(let iKpi = 0; iKpi < CONFIG_KPIS.length; iKpi++) {
                 // 1. crear el contenedor del kpi
                 let contenedorKpi = crearElemento("div", "kpi");
 
                 // 2. crear la etiqueta del kpi
-                let etiquetaKpi = crearElemento("span", "kpi-label", KPIS[iKpi].etiqueta);
+                let etiquetaKpi = crearElemento("span", "kpi-label", CONFIG_KPIS[iKpi].etiqueta);
 
                 // 3. crear el valor del kpi
                 let valorKpi = crearElemento("span", "kpi-value", valoresKpis[iKpi]);
@@ -72,7 +74,8 @@ export function crearSpots(playas) {
             let btnDetalles = crearElemento("button", "btn-detail", "Ver detalles");
 
             btnDetalles.addEventListener("click", () => {
-                windows.location.href = ""
+                sessionStorage.setItem("idSpot", partesMarinos[i].spot.id);
+                window.location.href = "./pages/detalle.html";
             });
 
         // Añadir cabecera, provincia, KPIs y botón detalle a la tarjeta spot
@@ -84,18 +87,36 @@ export function crearSpots(playas) {
 
 }
 
-function crearElemento(tipo, clase = "", texto = "") {
+export function mostrarMensajeError() {
 
-    let elemento = document.createElement(tipo);
-    
-    if(clase !== "") {
-        elemento.className = clase;
-    }
-    
-    if(texto !== "") {
-        elemento.textContent = texto;
-    }
+    let seccionSpot = document.querySelector("#spots-grid");
+    seccionSpot.innerHTML = "";
 
-    return elemento;
+    let contenedorError = crearElemento("div", "error-card");
+    let tituloError = crearElemento("h3", "", "⚠️ Error de conexión");
+    let descripcion = crearElemento("p", "", "Comprueba tu conexión a internet o inténtalo de nuevo en unos minutos.")
+    let btnReintentar = crearElemento("button", "btn-detail", "Reintentar");
 
+    btnReintentar.addEventListener(('click'), () => {
+        window.location.reload();
+    })
+    contenedorError.append(tituloError, descripcion, btnReintentar);
+
+
+    seccionSpot.append(contenedorError);
+}
+
+export function mostrarSpinner() {
+    let seccionSpot = document.querySelector("#spots-grid");
+    seccionSpot.innerHTML = "";
+
+    // Crear contenedor Spinner
+    let contenedorSpinner = crearElemento("div", "spinner-container");
+    let divSpinner = crearElemento("div", "spinner");
+    let partesMarinos = crearElemento("p", "", "Cargando datos...");
+
+    divSpinner.append(partesMarinos);
+    contenedorSpinner.append(divSpinner);
+
+    seccionSpot.append(contenedorSpinner);
 }

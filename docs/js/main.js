@@ -1,14 +1,19 @@
 'use strict'
 
-import { consultarAPI } from "../js/service/wavewatch.service.js";
-import { crearSpots } from "./ui/spots.ui.js";
+import { obtenerParteResumen } from "./service/open-meteo.service.js";
+import { mostrarSpots, mostrarMensajeError, mostrarSpinner } from "./ui/spots.ui.js";
 
 $(document).ready(function(){
-    consultarAPI()
+    mostrarSpinner();
+    obtenerParteResumen()
         .then(partesMarinos => {
             if(partesMarinos) {
-                crearSpots(partesMarinos);
+                mostrarSpots(partesMarinos);
             }
-        });
+        })
+        .catch(error => {
+            console.log(error);
+            mostrarMensajeError();
+        })
 });
 
